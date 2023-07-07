@@ -10,23 +10,25 @@ galleryList.addEventListener("click", onGallaryImgClick);
 
 const instance = basicLightbox.create(`
     <div class="modal">
-      <img class="big-image" src="">
-        <p class="img-title"></p>
+      <img class="big-image" src="" alt="">
     </div>
 `);
 
 function onGallaryImgClick(event) {
   event.preventDefault();
+  const urlOfBigImage = event.target.dataset.source;
+  const descrOfBigImage = event.target.getAttribute("alt");
   if (event.target.tagName === "IMG") {
     instance.show();
-    const dataSourceImg = event.target.dataset.source;
     const bigImg = document.querySelector(".big-image");
-    bigImg.src = dataSourceImg;
+    bigImg.src = urlOfBigImage;
+    bigImg.alt = descrOfBigImage;
   }
   document.addEventListener("keyup", onModalClose);
   function onModalClose(event) {
     if (event.code === "Escape") {
       instance.close();
+      document.removeEventListener("keyup", onModalClose);
     }
   }
 }
